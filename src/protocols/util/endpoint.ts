@@ -1,21 +1,26 @@
-import {Message, Request, Response, Notification} from './messages';
+import { Message, RequestMessage, ResponseMessage, NotificationMessage } from './messages';
 
-export abstract class Endpoint {
+/**
+ * A generic abstract class that uses Promises to simplyfy implementation
+ * of endpoints that handle request/response type messages.
+ */
+export abstract class Endpoint<Req, Res, Notif> {
 
-  protected readonly sendMessage: (msg: Message) => void;
+  protected readonly sendMessage: (msg: Message<Req, Res, Notif>) => void;
 
   private readonly pendingRequests =
-    new Map<number, {resolve: (resp: Response) => void}>();
+    new Map<number, { resolve: (resp: Res) => void }>();
+
   private nextRequestId = 0;
 
-  protected constructor(sendMessage: (msg: Message) => void) {
+  protected constructor(sendMessage: (msg: Message<Req, Res, Notif>) => void) {
     this.sendMessage = sendMessage;
   }
 
   /**
    * Call this method when the connection receives a message
    */
-  public recvMessage(msg: Message): void {
+  public recvMessage(msg: Message<Req, Res, Notif>): void {
     switch (msg.type) {
       case 'request': {
         this.handleRequest(msg.request)
@@ -51,16 +56,16 @@ export abstract class Endpoint {
     this.handleClosed();
   }
 
-  protected abstract handleRequest(request: Request): Promise<Response>;
+  protected abstract handleRequest(request: Req): Promise<Res>;
 
-  protected abstract handleNotification(notification: Notification): void;
+  protected abstract handleNotification(notification: Notif): void;
 
   protected abstract handleClosed(): void;
 
-  protected sendRequest(request: Request): Promise<Response> {
+  protected sendRequest(request: Req): Promise<Res> {
     return new Promise(resolve => {
       const requestId = this.nextRequestId++;
-      this.pendingRequests.set(requestId, {resolve});
+      this.pendingRequests.set(requestId, { resolve });
       this.sendMessage({
         type: 'request',
         requestId,
@@ -69,7 +74,7 @@ export abstract class Endpoint {
     });
   }
 
-  protected sendNotification(notification: Notification) {
+  protected sendNotification(notification: N) {
     this.sendMessage({
       type: 'notification',
       notification

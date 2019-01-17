@@ -1,19 +1,16 @@
+import {Message} from '../util/messages';
 import {CueFile} from '../../file';
-
-export function test() {
-  console.log('hello world');
-}
 
 export type PingRequest = {
   type: 'ping';
 };
 
+export type Request = PingRequest;
+
 export type PingResponse = {
   type: 'pong';
   timestampMillis: number;
 };
-
-export type Request = PingRequest;
 
 export type Response = PingResponse;
 
@@ -39,21 +36,4 @@ export type PingStateNotification = {
 
 export type Notification = PlayingNotification | StoppedNotification | PingStateNotification;
 
-export type PlayStateNotificationMessage = {
-  type: 'notification';
-  notification: Notification;
-};
-
-export type RequestMessage = {
-  type: 'request';
-  requestId: number;
-  request: Request;
-};
-
-export type ResponseMessage = {
-  type: 'response';
-  requestId: number;
-  response: Response;
-};
-
-export type Message = RequestMessage | ResponseMessage | PlayStateNotificationMessage;
+export type BroadcastMessage = Message<Request, Response, Notification>;

@@ -1,11 +1,11 @@
-import {Endpoint} from './common';
-import {Message, Request, Response, Notification, PlayStateData} from './messages';
+import {Endpoint} from '../util/endpoint';
+import {BroadcastMessage, Request, Response, Notification, PlayStateData} from './messages';
 
 /**
- * The ConsumerEndpoint is the side of the protocol that receives synesthesia
- * information.
+ * The DownstreamEndpoint is the side of the protocol that receives synesthesia
+ * information. (e.g. a consumer)
  */
-export class ConsumerEndpoint extends Endpoint {
+export class DownstreamEndpoint extends Endpoint<Request, Response, Notification> {
 
   private readonly playStateUpdated: (state: PlayStateData | null) => void;
 
@@ -14,7 +14,7 @@ export class ConsumerEndpoint extends Endpoint {
   private latestGoodPing: {ping: number, requestTime: number, diff: number} | null = null;
 
   public constructor(
-    sendMessage: (msg: Message) => void,
+    sendMessage: (msg: BroadcastMessage) => void,
     playStateUpdated: (state: PlayStateData | null) => void
   ) {
     super(sendMessage);

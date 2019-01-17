@@ -12,7 +12,7 @@
  */
 
 import * as messages from './messages';
-import {ConsumerEndpoint} from './consumer';
-import {ControllerEndpoint} from './controller';
+import {DownstreamEndpoint} from './downstream';
+import {UpstreamEndpoint} from './UpstreamEndpoint';
 
-export {messages, ConsumerEndpoint, ControllerEndpoint};
+export { messages, DownstreamEndpoint, UpstreamEndpoint };

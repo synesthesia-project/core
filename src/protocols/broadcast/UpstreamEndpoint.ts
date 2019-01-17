@@ -1,16 +1,16 @@
-import {Endpoint} from './common';
-import {Message, Request, Response, PlayStateData, Notification} from './messages';
+import {Endpoint} from '../util/endpoint';
+import {BroadcastMessage, Request, Response, PlayStateData, Notification} from './messages';
 
 /**
- * The ControllerEndpoint is the side of the protocol that shares synesthesia
- * information.
+ * The UpstreamEndpoint is the side of the protocol that shares synesthesia
+ * information (e.g. a server).
  */
-export class ControllerEndpoint extends Endpoint {
+export class UpstreamEndpoint extends Endpoint<Request, Response, Notification> {
 
   private readonly recvPingData: (ping: number, diff: number) => void;
 
   public constructor(
-      sendMessage: (msg: Message) => void,
+      sendMessage: (msg: BroadcastMessage) => void,
       recvPingData: (ping: number, diff: number) => void) {
     super(sendMessage);
     this.recvPingData = recvPingData;
