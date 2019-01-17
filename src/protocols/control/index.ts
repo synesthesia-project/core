@@ -13,3 +13,5 @@
  * machine.
  */
 
+export { ControllerEndpoint } from './controller';
+export { ServerEndpoint } from './server';

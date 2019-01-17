@@ -13,6 +13,6 @@
 
 import * as messages from './messages';
 import {DownstreamEndpoint} from './downstream';
-import {UpstreamEndpoint} from './UpstreamEndpoint';
+import {UpstreamEndpoint} from './upstream';
 
 export { messages, DownstreamEndpoint, UpstreamEndpoint };

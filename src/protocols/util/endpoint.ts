@@ -74,7 +74,7 @@ export abstract class Endpoint<Req, Res, Notif> {
     });
   }
 
-  protected sendNotification(notification: N) {
+  protected sendNotification(notification: Notif) {
     this.sendMessage({
       type: 'notification',
       notification
