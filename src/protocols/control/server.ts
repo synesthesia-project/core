@@ -26,6 +26,7 @@ export class ServerEndpoint extends Endpoint<Request, Response, Notification> {
     switch (notification.type) {
       case 'state':
         this.playStateUpdated(notification.data);
+        return;
     }
     console.error('unknown notification:', notification);
   }
