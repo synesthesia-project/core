@@ -19,14 +19,23 @@ export type FileByMeta = {
 
 export type File = FileByPath | FileByMeta;
 
+export type LayerState =
+    {
+        type: 'playing';
+        effectiveStartTimeMillis: number;
+        /**
+         * How fast is the song playing compared to it's natural speed,
+         * where 1 = normal, 2 = double speed, 0.5 = half speed
+         */
+        playSpeed: number;
+    } | {
+        type: 'paused';
+        positionMillis: number;
+    };
+
 export type Layer = {
     file: File;
-    effectiveStartTimeMillis: number;
-    /**
-     * How fast is the song playing compared to it's natural speed,
-     * where 1 = normal, 2 = double speed, 0.5 = half speed
-     */
-    playSpeed: number;
+    state: LayerState;
 };
 
 export type PlayStateData = {
