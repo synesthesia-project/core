@@ -21,6 +21,7 @@ export abstract class Endpoint<Req, Res, Notif> {
    * Call this method when the connection receives a message
    */
   public recvMessage(msg: Message<Req, Res, Notif>): void {
+    console.log('got msg', msg);
     switch (msg.type) {
       case 'request': {
         this.handleRequest(msg.request)
@@ -89,6 +90,7 @@ export abstract class RequestHandlerEndpoint<Req, Res, Notif> extends Endpoint<R
   private requestHandler: ((req: Req) => Promise<Res>) | null = null;
 
   protected handleRequest(request: Req): Promise<Res> {
+    console.log('got a request', request);
     if (this.requestHandler) {
       return this.requestHandler(request);
     }
