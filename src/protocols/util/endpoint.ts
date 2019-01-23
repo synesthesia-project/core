@@ -62,7 +62,7 @@ export abstract class Endpoint<Req, Res, Notif> {
 
   protected abstract handleClosed(): void;
 
-  protected sendRequest(request: Req): Promise<Res> {
+  public sendRequest(request: Req): Promise<Res> {
     return new Promise(resolve => {
       const requestId = this.nextRequestId++;
       this.pendingRequests.set(requestId, { resolve });
@@ -74,11 +74,28 @@ export abstract class Endpoint<Req, Res, Notif> {
     });
   }
 
-  protected sendNotification(notification: Notif) {
+  public sendNotification(notification: Notif) {
     this.sendMessage({
       type: 'notification',
       notification
     });
   }
 
+}
+
+/** Base Endpoint that implements an interface for attaching a request handler */
+export abstract class RequestHandlerEndpoint<Req, Res, Notif> extends Endpoint<Req, Res, Notif> {
+
+  private requestHandler: ((req: Req) => Promise<Res>) | null = null;
+
+  protected handleRequest(request: Req): Promise<Res> {
+    if (this.requestHandler) {
+      return this.requestHandler(request);
+    }
+    return Promise.reject(new Error('no rewquest handler'));
+  }
+
+  public setRequestHandler(handler: (req: Req) => Promise<Res>) {
+    this.requestHandler = handler;
+  }
 }

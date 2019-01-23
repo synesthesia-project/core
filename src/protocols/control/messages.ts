@@ -1,8 +1,23 @@
 import { Message } from '../util/messages';
 
-export type Request = never;
+export interface ToggleRequest {
+    request: 'toggle';
+}
 
-export type Response = never;
+// TODO: investigate if this is used in composer over toggle(), and remove if needed
+export interface PauseRequest {
+    request: 'pause';
+}
+
+export interface GoToTimeRequest {
+    request: 'go-to-time';
+    positionMillis: number;
+}
+
+/** Response for [[ToggleRequest]], [[PauseRequest]] or [[GoToTimeRequest]] */
+export interface ControlResponse {
+    success: boolean;
+}
 
 export type FileByPath = {
     type: 'path';
@@ -47,6 +62,17 @@ export type PlayState = {
     data: PlayStateData;
 };
 
+/** Request sent from the server to the controller */
+export type ServerRequest = ToggleRequest | PauseRequest | GoToTimeRequest;
+
+/** Response sent from the controller to the server */
+export type ControllerResponse = ControlResponse;
+
+/** All Request types */
+export type Request = ServerRequest;
+/** All Response types */
+export type Response = ControllerResponse;
+/** All Response types */
 export type Notification = PlayState;
 
 export type ControlMessage = Message<Request, Response, Notification>;
