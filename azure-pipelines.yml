@@ -14,3 +14,9 @@ steps:
     yarn install
     gulp
   displayName: 'npm install and run gulp'
+
+- script: |
+    yarn --cwd examples/controller install
+    git checkout examples/controller/node_modules
+    gulp --gulpfile examples/controller/gulpfile.js
+  displayName: 'build example: controller'
