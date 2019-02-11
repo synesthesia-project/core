@@ -85,7 +85,7 @@ export class Stage extends React.Component<{}, {}> {
     } else {
       console.error('no files');
     }
-    ev.target.value = unknownFunc;
+    ev.target.value = '';
   }
 
   private updatePlayState() {
