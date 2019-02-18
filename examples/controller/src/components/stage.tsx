@@ -35,24 +35,41 @@ export class Stage extends React.Component<{}, {}> {
 
   private getEndpoint(): Promise<ControllerEndpoint> {
     if (!this.endpoint) {
-      const endpoint = this.endpoint = new Promise((resolve, reject) => {
+      const endpointPromise = this.endpoint = new Promise((resolve, reject) => {
         const ws = new WebSocket(`ws://localhost:${DEFAULT_SYNESTHESIA_PORT}/control`);
+        const endpoint = new ControllerEndpoint(msg => ws.send(JSON.stringify(msg)));
         ws.addEventListener('open', () => {
-          const endpoint = new ControllerEndpoint(msg => ws.send(JSON.stringify(msg)));
+          endpoint.setRequestHandler(async req => {
+            if (!this.audio) return { success: false };
+            switch(req.request) {
+              case 'pause':
+                this.audio.pause();
+                return {success: true};
+              case 'toggle':
+                this.audio.paused ? this.audio.play() : this.audio.pause();
+                return { success: true };
+              case 'go-to-time':
+                this.audio.currentTime = req.positionMillis / 1000;
+                return { success: true };
+            }
+          })
           resolve(endpoint);
         });
         ws.addEventListener('error', err => {
-          if (endpoint === this.endpoint) this.endpoint = null;
+          if (endpointPromise === this.endpoint) this.endpoint = null;
           reject(err);
         });
         ws.addEventListener('close', err => {
-          if (endpoint === this.endpoint) this.endpoint = null;
+          if (endpointPromise === this.endpoint) this.endpoint = null;
         });
+        ws.addEventListener('message', msg => {
+          endpoint.recvMessage(JSON.parse(msg.data));
+        })
       })
 
       this.endpoint.catch(err => {
         console.error(err);
-        if(this.endpoint === endpoint) {
+        if (this.endpoint === endpointPromise) {
           // Remove the endpoint so an attempt will be tried again
           this.endpoint = null;
         }
