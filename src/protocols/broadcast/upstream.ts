@@ -47,14 +47,12 @@ export class UpstreamEndpoint extends Endpoint<Request, Response, Notification> 
     console.log('connection closed');
   }
 
-  public sendState(state: PlayStateData | null) {
+  public sendState(state: PlayStateData) {
     this.sendMessage({
       type: 'notification',
-      notification: state ? {
-        type: 'playing',
+      notification: {
+        type: 'playing_state',
         data: state
-      } : {
-        type: 'stopped'
       }
     });
   }

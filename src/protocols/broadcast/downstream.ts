@@ -1,5 +1,5 @@
 import {Endpoint} from '../util/endpoint';
-import {BroadcastMessage, Request, Response, Notification, PlayStateData} from './messages';
+import { BroadcastMessage, Request, Response, Notification, PlayStateData, LayerState } from './messages';
 
 /**
  * The DownstreamEndpoint is the side of the protocol that receives synesthesia
@@ -32,13 +32,9 @@ export class DownstreamEndpoint extends Endpoint<Request, Response, Notification
 
   protected handleNotification(notification: Notification) {
     switch (notification.type) {
-      case 'playing': {
+      case 'playing_state': {
         this.lastPlayState = notification.data;
         this.sendPlayState();
-        break;
-      }
-      case 'stopped': {
-        this.playStateUpdated(null);
         break;
       }
       default:
@@ -52,10 +48,14 @@ export class DownstreamEndpoint extends Endpoint<Request, Response, Notification
 
   private sendPlayState() {
     if (this.lastPlayState && this.latestGoodPing) {
+      const pingDiff = this.latestGoodPing.diff;
       this.playStateUpdated({
-        effectiveStartTimeMillis:
-          this.lastPlayState.effectiveStartTimeMillis + this.latestGoodPing.diff,
-        file: this.lastPlayState.file
+        layers: this.lastPlayState.layers.map<LayerState>(layer => ({
+          fileId: layer.fileId,
+          amplitude: layer.amplitude,
+          playSpeed: layer.playSpeed,
+          effectiveStartTimeMillis: layer.effectiveStartTimeMillis + pingDiff
+        }))
       });
     }
   }
@@ -68,6 +68,10 @@ export class DownstreamEndpoint extends Endpoint<Request, Response, Notification
   private updateTimeDifference() {
     const requestTime = new Date().getTime();
     this.sendRequest({type: 'ping'}).then(resp => {
+      if (resp.type !== 'pong') {
+        console.error('Received unexpected response to ping:', resp);
+        return;
+      }
       const responseTime = new Date().getTime();
       const ping = responseTime - requestTime;
       if (!this.latestGoodPing || this.latestGoodPing.ping > ping) {

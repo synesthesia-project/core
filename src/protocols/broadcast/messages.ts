@@ -5,27 +5,43 @@ export type PingRequest = {
   type: 'ping';
 };
 
-export type Request = PingRequest;
+export type FileRequest = {
+  type: 'file';
+  fileId: string;
+};
 
 export type PingResponse = {
   type: 'pong';
   timestampMillis: number;
 };
 
-export type Response = PingResponse;
-
-export type PlayStateData = {
-  effectiveStartTimeMillis: number;
+export type FileResponse = {
+  type: 'file';
   file: CueFile;
 };
 
-export type PlayingNotification = {
-  type: 'playing';
-  data: PlayStateData;
+export type LayerState = {
+  fileId: string;
+  effectiveStartTimeMillis: number;
+  /**
+   * How load a layer is
+   * 1 = normal (full volume), 0 = muted.
+   */
+  amplitude: number;
+  /**
+   * How fast is the song playing compared to it's natural speed,
+   * where 1 = normal, 2 = double speed, 0.5 = half speed
+   */
+  playSpeed: number;
 };
 
-export type StoppedNotification = {
-  type: 'stopped';
+export type PlayStateData = {
+  layers: LayerState[];
+};
+
+export type PlayState = {
+  type: 'playing_state';
+  data: PlayStateData;
 };
 
 export type PingStateNotification = {
@@ -34,6 +50,10 @@ export type PingStateNotification = {
   diff: number;
 };
 
-export type Notification = PlayingNotification | StoppedNotification | PingStateNotification;
+export type Request = PingRequest | FileRequest;
+
+export type Response = PingResponse | FileResponse;
+
+export type Notification = PlayState | PingStateNotification;
 
 export type BroadcastMessage = Message<Request, Response, Notification>;
