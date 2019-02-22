@@ -1,6 +1,9 @@
 export const DEFAULT_SYNESTHESIA_PORT = 8120;
 
-export const SYNESTHESIA_WEBSOCKET_PATH = '/synesthesia';
+/**
+ * The path that downstream broadcast endpoints use to connect to an upstream endpoint.
+ */
+export const BROADCAST_UPSTREAM_WEBSOCKET_PATH = '/listen';
 export const CONTROLLER_WEBSOCKET_PATH = '/control';
 
 export const COMPOSER_PATH = '/composer';

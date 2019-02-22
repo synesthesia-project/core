@@ -7,7 +7,7 @@ export type PingRequest = {
 
 export type FileRequest = {
   type: 'file';
-  fileId: string;
+  fileHash: string;
 };
 
 export type PingResponse = {
@@ -21,7 +21,7 @@ export type FileResponse = {
 };
 
 export type LayerState = {
-  fileId: string;
+  fileHash: string;
   effectiveStartTimeMillis: number;
   /**
    * How load a layer is

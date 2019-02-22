@@ -51,7 +51,7 @@ export class DownstreamEndpoint extends Endpoint<Request, Response, Notification
       const pingDiff = this.latestGoodPing.diff;
       this.playStateUpdated({
         layers: this.lastPlayState.layers.map<LayerState>(layer => ({
-          fileId: layer.fileId,
+          fileHash: layer.fileHash,
           amplitude: layer.amplitude,
           playSpeed: layer.playSpeed,
           effectiveStartTimeMillis: layer.effectiveStartTimeMillis + pingDiff
