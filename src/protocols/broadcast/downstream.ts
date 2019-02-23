@@ -1,5 +1,6 @@
 import {Endpoint} from '../util/endpoint';
 import { BroadcastMessage, Request, Response, Notification, PlayStateData, LayerState } from './messages';
+import { CueFile } from '../../file';
 
 /**
  * The DownstreamEndpoint is the side of the protocol that receives synesthesia
@@ -86,6 +87,13 @@ export class DownstreamEndpoint extends Endpoint<Request, Response, Notification
         this.sendPlayState();
       }
       console.log('ping:', ping);
+    });
+  }
+
+  public getFile(fileHash: string): Promise<CueFile> {
+    return this.sendRequest({type: 'file', fileHash }).then(response => {
+      if (response.type === 'file') return response.file;
+      throw new Error('unexpected response');
     });
   }
 

@@ -21,7 +21,16 @@ export class Stage extends React.Component<{}, {}> {
       ws.addEventListener('open', () => {
         const endpoint = new DownstreamEndpoint(
           msg => ws.send(JSON.stringify(msg)),
-          state => console.log('new state', state)
+          state => {
+            console.log('new state', state);
+            if (state) {
+              state.layers.map(l =>
+                endpoint.getFile(l.fileHash)
+                  .then(file => console.log('received file', file))
+                  .catch(err => console.error(err))
+              )
+            }
+          }
         );
         ws.addEventListener('message', msg => {
           endpoint.recvMessage(JSON.parse(msg.data));

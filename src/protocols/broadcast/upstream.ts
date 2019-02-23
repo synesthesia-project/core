@@ -1,5 +1,6 @@
 import {Endpoint} from '../util/endpoint';
 import {BroadcastMessage, Request, Response, PlayStateData, Notification} from './messages';
+import {CueFile} from '../../file';
 
 /**
  * The UpstreamEndpoint is the side of the protocol that shares synesthesia
@@ -8,12 +9,15 @@ import {BroadcastMessage, Request, Response, PlayStateData, Notification} from '
 export class UpstreamEndpoint extends Endpoint<Request, Response, Notification> {
 
   private readonly recvPingData: (ping: number, diff: number) => void;
+  private readonly getFile: (hash: string) => Promise<CueFile>;
 
   public constructor(
       sendMessage: (msg: BroadcastMessage) => void,
-      recvPingData: (ping: number, diff: number) => void) {
+      recvPingData: (ping: number, diff: number) => void,
+      getFile: (hash: string) => Promise<CueFile>) {
     super(sendMessage);
     this.recvPingData = recvPingData;
+    this.getFile = getFile;
   }
 
   protected handleRequest(request: Request): Promise<Response> {
@@ -25,6 +29,13 @@ export class UpstreamEndpoint extends Endpoint<Request, Response, Notification> 
             timestampMillis: new Date().getTime()
           };
           resolve(response);
+          return;
+        }
+        case 'file': {
+          resolve(
+            this.getFile(request.fileHash)
+            .then(file => ({ type: 'file', file } as Response))
+          );
           return;
         }
       }
