@@ -9,7 +9,7 @@ export abstract class Endpoint<Req, Res, Notif> {
   protected readonly sendMessage: (msg: Message<Req, Res, Notif>) => void;
 
   private readonly pendingRequests =
-    new Map<number, { resolve: (resp: Res) => void }>();
+    new Map<number, { resolve: (resp: Res) => void, reject: (error: Error) => void }>();
 
   private nextRequestId = 0;
 
@@ -29,13 +29,30 @@ export abstract class Endpoint<Req, Res, Notif> {
             type: 'response',
             requestId: msg.requestId,
             response
-          }));
+          }))
+          .catch(err => {
+            console.error('Unable to process request', msg.request, 'sending error: ', err);
+            this.sendMessage({
+              type: 'error_response',
+              requestId: msg.requestId,
+              message: err.toString()
+            });
+          });
         break;
       }
       case 'response': {
         const r = this.pendingRequests.get(msg.requestId);
         if (r) {
           r.resolve(msg.response);
+        } else {
+          console.error('Got response for unrecognized request:', msg.requestId);
+        }
+        break;
+      }
+      case 'error_response': {
+        const r = this.pendingRequests.get(msg.requestId);
+        if (r) {
+          r.reject(new Error('Received error for request: ' + msg.message));
         } else {
           console.error('Got response for unrecognized request:', msg.requestId);
         }
@@ -64,9 +81,9 @@ export abstract class Endpoint<Req, Res, Notif> {
   protected abstract handleClosed(): void;
 
   public sendRequest(request: Req): Promise<Res> {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const requestId = this.nextRequestId++;
-      this.pendingRequests.set(requestId, { resolve });
+      this.pendingRequests.set(requestId, { resolve, reject });
       this.sendMessage({
         type: 'request',
         requestId,
