@@ -44,6 +44,7 @@ export abstract class Endpoint<Req, Res, Notif> {
         const r = this.pendingRequests.get(msg.requestId);
         if (r) {
           r.resolve(msg.response);
+          this.pendingRequests.delete(msg.requestId);
         } else {
           console.error('Got response for unrecognized request:', msg.requestId);
         }
@@ -53,6 +54,7 @@ export abstract class Endpoint<Req, Res, Notif> {
         const r = this.pendingRequests.get(msg.requestId);
         if (r) {
           r.reject(new Error('Received error for request: ' + msg.message));
+          this.pendingRequests.delete(msg.requestId);
         } else {
           console.error('Got response for unrecognized request:', msg.requestId);
         }
