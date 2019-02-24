@@ -124,7 +124,7 @@ export class Stage extends React.Component<{}, {}> {
           this.audio.currentTime * 1000
         } : {
           type: 'playing',
-          effectiveStartTimeMillis: new Date().getTime() - this.audio.currentTime * 1000,
+          effectiveStartTimeMillis: new Date().getTime() - this.audio.currentTime * 1000 / this.audio.playbackRate,
           playSpeed: this.audio.playbackRate
         }
       }]});
