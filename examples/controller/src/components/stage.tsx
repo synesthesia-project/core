@@ -136,6 +136,7 @@ export class Stage extends React.Component<{}, {}> {
     if (audio) {
       audio.addEventListener('playing', this.updatePlayState);
       audio.addEventListener('pause', this.updatePlayState);
+      audio.addEventListener('seeked', this.updatePlayState);
     }
   }
   
