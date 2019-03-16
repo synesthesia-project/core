@@ -12,7 +12,7 @@ steps:
 
 - script: |
     yarn install
-    gulp
+    yarn run build
   displayName: 'npm install and run gulp'
 
 - script: |
