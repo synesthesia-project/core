@@ -10,7 +10,7 @@ export class DownstreamEndpoint extends Endpoint<Request, Response, Notification
 
   private readonly playStateUpdated: (state: PlayStateData | null) => void;
 
-  private lastPlayState: PlayStateData | null;
+  private lastPlayState: PlayStateData | null = null;
   private pingInterval: any;
   private latestGoodPing: {ping: number, requestTime: number, diff: number} | null = null;
 
@@ -25,8 +25,8 @@ export class DownstreamEndpoint extends Endpoint<Request, Response, Notification
     this.updateTimeDifference();
   }
 
-  protected handleRequest(request: Request): Promise<Response> {
-    return new Promise((resolve, reject) => {
+  protected handleRequest(_request: Request): Promise<Response> {
+    return new Promise((_resolve, reject) => {
       reject(new Error('unknown request type'));
     });
   }

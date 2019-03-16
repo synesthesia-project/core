@@ -16,8 +16,8 @@ export class ServerEndpoint extends Endpoint<Request, Response, Notification> {
     this.playStateUpdated = playStateUpdated;
   }
 
-  protected handleRequest(request: Request): Promise<Response> {
-    return new Promise((resolve, reject) => {
+  protected handleRequest(_request: Request): Promise<Response> {
+    return new Promise((_resolve, reject) => {
       reject(new Error('unknown request type'));
     });
   }

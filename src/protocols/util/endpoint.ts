@@ -1,4 +1,4 @@
-import { Message, RequestMessage, ResponseMessage, NotificationMessage } from './messages';
+import { Message } from './messages';
 
 /**
  * A generic abstract class that uses Promises to simplyfy implementation

@@ -1,8 +1,6 @@
 import {RequestHandlerEndpoint} from '../util/endpoint';
 import {ControlMessage, Request, Response, PlayStateData, Notification} from './messages';
 
-type RequestHandler = (request: Request) => Promise<Response>;
-
 /**
  * The ControllerEndpoint is the side of the control protocol that should
  * be used by a controller application (e.g. a music player)
