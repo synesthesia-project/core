@@ -21,8 +21,8 @@ gulp.task('clean', function() {
         .pipe(clean());
 });
 
-gulp.task("copy-html", function(){
-  return gulp.src("./src/*.html")
+gulp.task("copy-static", function(){
+  return gulp.src(['./src/*.html', './src/*.svg'])
     .pipe(gulp.dest('build/'))
 });
 
@@ -66,7 +66,7 @@ gulp.task("webpack", ['ts'], function(callback) {
 gulp.task('default', function(callback) {
   runSequence(
     'clean',
-    ['webpack', 'copy-html'],
+    ['webpack', 'copy-static'],
     'tslint',
     callback);
 });
