@@ -6,6 +6,9 @@
     "email": "sam@samlanning.com",
     "url": "https://samlanning.com/"
   },
+  "scripts": {
+    "build": "gulp"
+  },
   "devDependencies": {
     "@types/react": "^16.0.38",
     "@types/react-dom": "^16.0.4",

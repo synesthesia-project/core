@@ -11,7 +11,7 @@ function loadAudioFile(audio: HTMLAudioElement, url: string): Promise<void> {
     const canPlay = () => {
       resolve();
       audio.removeEventListener('canplay', canPlay);
-    }
+    };
     audio.addEventListener('canplay', canPlay);
   });
 }
@@ -26,7 +26,7 @@ export class Stage extends React.Component<{}, {}> {
 
   public constructor(props: {}) {
     super(props);
-    this.state = {}
+    this.state = {};
 
     this.loadAudioFile = this.loadAudioFile.bind(this);
     this.updateAudioRef = this.updateAudioRef.bind(this);
@@ -41,7 +41,7 @@ export class Stage extends React.Component<{}, {}> {
         ws.addEventListener('open', () => {
           endpoint.setRequestHandler(async req => {
             if (!this.audio) return { success: false };
-            switch(req.request) {
+            switch (req.request) {
               case 'pause':
                 this.audio.pause();
                 return {success: true};
@@ -51,8 +51,12 @@ export class Stage extends React.Component<{}, {}> {
               case 'go-to-time':
                 this.audio.currentTime = req.positionMillis / 1000;
                 return { success: true };
+              case 'play-speed':
+                this.audio.playbackRate = req.playSpeed;
+                this.updatePlayState();
+                return { success: true };
             }
-          })
+          });
           resolve(endpoint);
         });
         ws.addEventListener('error', err => {
@@ -64,8 +68,8 @@ export class Stage extends React.Component<{}, {}> {
         });
         ws.addEventListener('message', msg => {
           endpoint.recvMessage(JSON.parse(msg.data));
-        })
-      })
+        });
+      });
 
       this.endpoint.catch(err => {
         console.error(err);
@@ -73,7 +77,7 @@ export class Stage extends React.Component<{}, {}> {
           // Remove the endpoint so an attempt will be tried again
           this.endpoint = null;
         }
-      })
+      });
     }
 
     return this.endpoint;
@@ -97,8 +101,7 @@ export class Stage extends React.Component<{}, {}> {
             this.updatePlayState();
           }
         });
-      })
-      
+      });
     } else {
       console.error('no files');
     }
@@ -128,7 +131,7 @@ export class Stage extends React.Component<{}, {}> {
           playSpeed: this.audio.playbackRate
         }
       }]});
-    })
+    });
   }
 
   private updateAudioRef(audio: HTMLAudioElement | null) {
@@ -139,7 +142,7 @@ export class Stage extends React.Component<{}, {}> {
       audio.addEventListener('seeked', this.updatePlayState);
     }
   }
-  
+
   public render() {
     return (
       <div>

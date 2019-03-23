@@ -14,6 +14,15 @@ export interface GoToTimeRequest {
     positionMillis: number;
 }
 
+export interface PlaySpeedRequest {
+    request: 'play-speed';
+    /**
+     * How fast should the song play compared to it's natural speed,
+     * where 1 = normal, 2 = double speed, 0.5 = half speed
+     */
+    playSpeed: number;
+}
+
 /** Response for [[ToggleRequest]], [[PauseRequest]] or [[GoToTimeRequest]] */
 export interface ControlResponse {
     success: boolean;
@@ -63,7 +72,7 @@ export type PlayState = {
 };
 
 /** Request sent from the server to the controller */
-export type ServerRequest = ToggleRequest | PauseRequest | GoToTimeRequest;
+export type ServerRequest = ToggleRequest | PauseRequest | GoToTimeRequest | PlaySpeedRequest;
 
 /** Response sent from the controller to the server */
 export type ControllerResponse = ControlResponse;
