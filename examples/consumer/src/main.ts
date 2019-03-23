@@ -76,7 +76,7 @@ export class Stage {
       for (const layer of this.state.playState.layers) {
         const f = this.state.files.get(layer.fileHash);
         if (!f) continue;
-        const t = timestampMillis - layer.effectiveStartTimeMillis;
+        const t = (timestampMillis - layer.effectiveStartTimeMillis) * layer.playSpeed;
         for (const fLayer of f.layers) {
           const activeEvents = usage.getActiveEvents(fLayer.events, t);
           for (const e of activeEvents) {
