@@ -12,7 +12,7 @@ export class Stage extends React.Component<{}, {}> {
     const endpoint = this.connect();
     endpoint.then(endpoint => {
       console.log('endpoint ready', endpoint);
-    })
+    });
   }
 
   private connect(): Promise<DownstreamEndpoint> {
@@ -28,13 +28,13 @@ export class Stage extends React.Component<{}, {}> {
                 endpoint.getFile(l.fileHash)
                   .then(file => console.log('received file', file))
                   .catch(err => console.error(err))
-              )
+              );
             }
           }
         );
         ws.addEventListener('message', msg => {
           endpoint.recvMessage(JSON.parse(msg.data));
-        })
+        });
         resolve(endpoint);
       });
       ws.addEventListener('error', err => {
@@ -45,7 +45,7 @@ export class Stage extends React.Component<{}, {}> {
       });
     });
   }
-  
+
   public render() {
     return (
       <div>

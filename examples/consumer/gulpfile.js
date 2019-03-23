@@ -36,10 +36,10 @@ gulp.task('ts', function () {
 gulp.task('tslint', function () {
   var program = tslint.Linter.createProgram("src/tsconfig.json");
 
-  return gulp.src(['src/**/*.ts'])
+  return gulp.src(['src/**/*.ts', 'src/**/*.tsx'])
     .pipe(gulpTslint({
       formatter: 'verbose',
-      configuration: 'tslint.json',
+      configuration: '../../tslint.json',
       program
     }))
     .on('error', handleError)
@@ -67,5 +67,6 @@ gulp.task('default', function(callback) {
   runSequence(
     'clean',
     ['webpack', 'copy-html'],
+    'tslint',
     callback);
 });
