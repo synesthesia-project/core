@@ -18,11 +18,11 @@ steps:
 - script: |
     yarn --cwd examples/controller install
     git checkout examples/controller/node_modules
-    gulp --gulpfile examples/controller/gulpfile.js
+    yarn --cwd examples/controller run build
   displayName: 'build example: controller'
 
 - script: |
     yarn --cwd examples/consumer install
     git checkout examples/consumer/node_modules
-    gulp --gulpfile examples/consumer/gulpfile.js
+    yarn --cwd examples/consumer run build
   displayName: 'build example: consumer'
