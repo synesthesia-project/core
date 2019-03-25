@@ -23,3 +23,6 @@ test_script:
     yarn --cwd examples/consumer install
     git checkout examples/consumer/node_modules
     yarn --cwd examples/consumer run build
+
+# Don't actually build.
+build: off
