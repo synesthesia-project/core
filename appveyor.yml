@@ -1,0 +1,33 @@
+# Test against the latest version of this Node.js version
+environment:
+  nodejs_version: "10"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js or io.js
+  - ps: Install-Product node $env:nodejs_version
+
+# Post-install test scripts.
+test_script:
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  # run tests
+  - npm test
+
+build_script:
+- sh: >-
+    node -v
+    nodejs -v
+    yarn -v
+
+    yarn
+    yarn run build
+
+    yarn --cwd examples/controller install
+    git checkout examples/controller/node_modules
+    yarn --cwd examples/controller run build
+
+    yarn --cwd examples/consumer install
+    git checkout examples/consumer/node_modules
+    yarn --cwd examples/consumer run build
