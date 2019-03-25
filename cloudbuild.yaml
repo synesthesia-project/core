@@ -1,0 +1,23 @@
+steps:
+ - name: node:10.15.1
+   entrypoint: yarn
+   args: ['install']
+ - name: node:10.15.1
+   entrypoint: yarn
+   args: ['run', 'build']
+ - name: node:10.15.1
+   entrypoint: yarn
+   args: ['--cwd', 'examples/controller', 'install']
+ - name: gcr.io/cloud-builders/git
+   args: ['checkout', 'examples/controller/node_modules']
+ - name: node:10.15.1
+   entrypoint: yarn
+   args: ['--cwd', 'examples/controller', 'run', 'build']
+ - name: node:10.15.1
+   entrypoint: yarn
+   args: ['--cwd', 'examples/consumer', 'install']
+ - name: gcr.io/cloud-builders/git
+   args: ['checkout', 'examples/consumer/node_modules']
+ - name: node:10.15.1
+   entrypoint: yarn
+   args: ['--cwd', 'examples/consumer', 'run', 'build']
