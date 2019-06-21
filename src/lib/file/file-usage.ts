@@ -1,4 +1,4 @@
-import * as file from './';
+import * as file from '.';
 import {deepFreeze} from '../util';
 
 export type PreparedFile = file.CueFile;

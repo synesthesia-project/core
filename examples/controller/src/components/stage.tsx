@@ -1,8 +1,8 @@
 import * as React from 'react';
 import universalParse from 'id3-parser/lib/universal';
 
-import {ControllerEndpoint} from '@synesthesia-project/core/protocols/control';
-import { DEFAULT_SYNESTHESIA_PORT } from '@synesthesia-project/core/constants';
+import { ControllerEndpoint } from '@synesthesia-project/core/lib/protocols/control';
+import { DEFAULT_SYNESTHESIA_PORT } from '@synesthesia-project/core/lib/constants';
 
 function loadAudioFile(audio: HTMLAudioElement, url: string): Promise<void> {
   return new Promise((resolve, reject) => {

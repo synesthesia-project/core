@@ -1,4 +1,4 @@
-import * as constants from './constants';
-import * as file from './file';
+import * as constants from './lib/constants';
+import * as file from './lib/file';
 
 export {constants, file};

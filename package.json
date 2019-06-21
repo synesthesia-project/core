@@ -25,6 +25,13 @@
     "typescript": "^2.7.2"
   },
   "scripts": {
+    "clean": "gulp clean",
     "build": "gulp"
-  }
+  },
+  "files": [
+    "lib/**/*",
+    "index.d.ts",
+    "index.js",
+    "README.md"
+  ]
 }

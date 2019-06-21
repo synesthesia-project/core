@@ -16,7 +16,7 @@ function handleError(err) {
 }
 
 gulp.task('clean', function() {
-  return gulp.src(['dist'], {read: false})
+  return gulp.src(['lib', 'index.d.ts', 'index.js'], {read: false})
         .pipe(clean());
 });
 
@@ -24,11 +24,7 @@ gulp.task('ts', function () {
     return tsProject.src()
       .pipe(tsProject())
       .on('error', handleError)
-      .pipe(gulp.dest('dist/'));
-});
-
-gulp.task('copy-package-json', function () {
-    return gulp.src(['package.json']).pipe(gulp.dest('dist'));
+      .pipe(gulp.dest('./'));
 });
 
 gulp.task('tslint', function() {
@@ -47,7 +43,7 @@ gulp.task('tslint', function() {
 gulp.task('default', function(callback) {
   runSequence(
     'clean',
-    ['ts', 'copy-package-json'],
+    'ts',
     'tslint',
     callback);
 });

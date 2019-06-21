@@ -1,4 +1,6 @@
 {
+  "name": "@synesthesia-project/core-example-consumer",
+  "version": "0.0.1",
   "description": "Example controller for ",
   "license": "MIT",
   "author": {
@@ -7,6 +9,7 @@
     "url": "https://samlanning.com/"
   },
   "scripts": {
+    "link": "mkdir -p node_modules/@synesthesia-project; ln -s ../../../.. node_modules/@synesthesia-project/core",
     "build": "gulp"
   },
   "devDependencies": {
@@ -19,5 +22,6 @@
     "tslint": "^5.9.1",
     "typescript": "^2.7.2",
     "webpack": "1.14.0"
-  }
+  },
+  "private": true
 }
