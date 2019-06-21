@@ -1,8 +1,8 @@
-import { DownstreamEndpoint } from '@synesthesia-project/core/protocols/broadcast';
-import { PlayStateData } from '@synesthesia-project/core/protocols/broadcast/messages';
-import { CueFile } from '@synesthesia-project/core/file';
-import * as usage from '@synesthesia-project/core/file/file-usage';
-import { DEFAULT_SYNESTHESIA_PORT } from '@synesthesia-project/core/constants';
+import { DownstreamEndpoint } from '@synesthesia-project/core/lib/protocols/broadcast';
+import { PlayStateData } from '@synesthesia-project/core/lib/protocols/broadcast/messages';
+import { CueFile } from '@synesthesia-project/core/lib/file';
+import * as usage from '@synesthesia-project/core/lib/file/file-usage';
+import { DEFAULT_SYNESTHESIA_PORT } from '@synesthesia-project/core/lib/constants';
 
 const logo = document.getElementById('logo');
 
