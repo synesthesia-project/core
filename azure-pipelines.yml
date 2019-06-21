@@ -11,9 +11,9 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    yarn install
+    yarn
     yarn run build
-  displayName: 'npm install and run gulp'
+  displayName: 'install packages and build'
 
 - script: |
     yarn --cwd examples/controller install
