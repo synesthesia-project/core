@@ -13,6 +13,9 @@
     "link": "mkdir -p node_modules/@synesthesia-project; ln -s ../../../.. node_modules/@synesthesia-project/core",
     "build": "gulp"
   },
+  "dependencies": {
+    "@synesthesia-project/core": "^0.0.2"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
@@ -21,7 +24,7 @@
     "gulp-typescript": "^5.0.0",
     "run-sequence": "^1.2.2",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.2",
+    "typescript": "^3.5.2",
     "webpack": "1.14.0"
   },
   "private": true
