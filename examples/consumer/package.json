@@ -14,7 +14,7 @@
     "build": "gulp"
   },
   "dependencies": {
-    "@synesthesia-project/core": "0.0.2"
+    "@synesthesia-project/core": "^0.0.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
