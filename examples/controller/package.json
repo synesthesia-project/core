@@ -13,6 +13,9 @@
     "link": "mkdir -p node_modules/@synesthesia-project; ln -s ../../../.. node_modules/@synesthesia-project/core",
     "build": "gulp"
   },
+  "dependencies": {
+    "@synesthesia-project/core": "0.0.2"
+  },
   "devDependencies": {
     "@types/node": "^12.0.8",
     "@types/react": "^16.0.38",
